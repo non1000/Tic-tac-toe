@@ -6,6 +6,8 @@ board = Canvas(window, width=600, height=600, bg='white')
 bg = PhotoImage(file= 'board.png')
 x = PhotoImage(file='x.png')
 o = PhotoImage(file='O.png')
+win_x = PhotoImage(file='Win screen X.png')
+win_o = PhotoImage(file='Win screen O.png')
 
 board.create_image(305, 305, image = bg)
 board.pack()
@@ -32,16 +34,20 @@ hitbox_9 = board.create_rectangle(422,412,600,600,fill='white', outline='white')
 board.tag_bind(hitbox_9,'<Button-1>', lambda event: game(9))
 
 hitbox_centres = {
-    1: (100,100), 2: (300,100), 3: (500,100),
-    4: (100,300), 5: (300,300), 6: (500,300),
-    7: (100,500), 8: (300,500), 9: (500,500),
+    1: (110,110), 2: (310,110), 3: (510,110),
+    4: (110,310), 5: (310,310), 6: (510,310),
+    7: (110,510), 8: (310,510), 9: (510,510),
 }
 
-def game(cell):
+def game(hitbox):
     global TURN
     shape = x if TURN % 2 == 0 else o
-    x_coord,y_coord = hitbox_centres[cell]
+    x_coord,y_coord = hitbox_centres[hitbox]
     board.create_image(x_coord,y_coord, image= shape)
     TURN += 1  
+    colour = board.itemcget(hitbox_centres[hitbox],'shape')
+    print(colour)
     
+
+
 window.mainloop()
