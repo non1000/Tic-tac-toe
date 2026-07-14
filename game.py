@@ -1,13 +1,15 @@
 from tkinter import *
 window = Tk()
 TURN = 0
+record_x =[]
 
 board = Canvas(window, width=600, height=600, bg='white')
+
 bg = PhotoImage(file= 'board.png')
 x = PhotoImage(file='x.png')
 o = PhotoImage(file='O.png')
-win_x = PhotoImage(file='Win screen X.png')
-win_o = PhotoImage(file='Win screen O.png')
+win_x = PhotoImage(file='Win_screen_X.png')
+win_o = PhotoImage(file='Win_screen_O.png')
 
 board.create_image(305, 305, image = bg)
 board.pack()
@@ -38,16 +40,20 @@ hitbox_centres = {
     4: (110,310), 5: (310,310), 6: (510,310),
     7: (110,510), 8: (310,510), 9: (510,510),
 }
-
 def game(hitbox):
     global TURN
     shape = x if TURN % 2 == 0 else o
     x_coord,y_coord = hitbox_centres[hitbox]
     board.create_image(x_coord,y_coord, image= shape)
-    TURN += 1  
-    colour = board.itemcget(hitbox_centres[hitbox],'shape')
-    print(colour)
+    TURN += 1
     
-
+    if shape == x:
+        record_x.append(x_coord)
+    
+    if record_x == list([110, 110, 110]):
+        popup = Toplevel(window)
+        winner =Label(popup, width=1234, height= 559, image= win_x)
+        winner.pack()
+    print(record_x)
 
 window.mainloop()
