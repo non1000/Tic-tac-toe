@@ -2,6 +2,7 @@ from tkinter import *
 window = Tk()
 TURN = 0
 record_x =[]
+record_o =[]
 
 board = Canvas(window, width=600, height=600, bg='white')
 
@@ -10,6 +11,7 @@ x = PhotoImage(file='x.png')
 o = PhotoImage(file='O.png')
 win_x = PhotoImage(file='Win_screen_X.png')
 win_o = PhotoImage(file='Win_screen_O.png')
+draw = PhotoImage(file='draw.png')
 
 board.create_image(305, 305, image = bg)
 board.pack()
@@ -40,6 +42,9 @@ hitbox_centres = {
     4: (110,310), 5: (310,310), 6: (510,310),
     7: (110,510), 8: (310,510), 9: (510,510),
 }
+#conditions for winning: if any one number shows up 3 times in either the y or x coordinates
+#diagonals have more specific descriptions I think
+#if 
 def game(hitbox):
     global TURN
     shape = x if TURN % 2 == 0 else o
@@ -48,12 +53,64 @@ def game(hitbox):
     TURN += 1
     
     if shape == x:
-        record_x.append(x_coord)
+        record_x.append((x_coord,y_coord))
+    else:
+        record_o.append((x_coord,y_coord))
     
-    if record_x == list([110, 110, 110]):
+    def victory_screen():
+        if shape == x:
+            congrats = win_x
+        else:
+            congrats = win_o
         popup = Toplevel(window)
-        winner =Label(popup, width=1234, height= 559, image= win_x)
+        winner =Label(popup, width=1234, height= 559, image= congrats)
         winner.pack()
-    print(record_x)
+    
+#For X
+#horizontal
+    if (110,110) in record_x and (310,110) in record_x and (510,110) in record_x :
+        victory_screen()
+    if (110,310) in record_x and (310,310) in record_x and (510,310) in record_x :
+        victory_screen()
+    if (110,510) in record_x and (310,510) in record_x and (510,510) in record_x :
+        victory_screen()
+#vertical
+    if (110,110) in record_x and (110,310) in record_x and (110,510) in record_x :
+        victory_screen()
+    if (310,110) in record_x and (310,310) in record_x and (310,510) in record_x :
+        victory_screen()
+    if (510,110) in record_x and (510,310) in record_x and (510,510) in record_x :
+        victory_screen()
+#diagonal
+    if (110,110) in record_x and (310,310) in record_x and (510,510) in record_x :
+        victory_screen()
+    if (510,110) in record_x and (310,310) in record_x and (110,510) in record_x :
+        victory_screen()
+#For O
+#horizontal
+    if (110,110) in record_o and (310,110) in record_o and (510,110) in record_o :
+        victory_screen()
+    if (110,310) in record_o and (310,310) in record_o and (510,310) in record_o :
+        victory_screen()
+    if (110,510) in record_o and (310,510) in record_o and (510,510) in record_o :
+        victory_screen()
+#vertical
+    if (110,110) in record_o and (110,310) in record_o and (110,510) in record_o :
+        victory_screen()
+    if (310,110) in record_o and (310,310) in record_o and (310,510) in record_o :
+        victory_screen()
+    if (510,110) in record_o and (510,310) in record_o and (510,510) in record_o :
+        victory_screen()
+#diagonal
+    if (110,110) in record_o and (310,310) in record_o and (510,510) in record_o :
+        victory_screen()
+    if (510,110) in record_o and (310,310) in record_o and (110,510) in record_o :
+        victory_screen()
 
+#draw
+    if TURN == 9:
+        popup = Toplevel(window)
+        nowin = Label(popup, width=1234, height= 559, image= draw)
+        nowin.pack()
+        
 window.mainloop()
