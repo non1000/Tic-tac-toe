@@ -12,6 +12,7 @@ o = PhotoImage(file='O.png')
 win_x = PhotoImage(file='Win_screen_X.png')
 win_o = PhotoImage(file='Win_screen_O.png')
 draw = PhotoImage(file='draw.png')
+gameover = PhotoImage(file= 'game_over.png')
 
 board.create_image(305, 305, image = bg)
 board.pack()
@@ -42,9 +43,7 @@ hitbox_centres = {
     4: (110,310), 5: (310,310), 6: (510,310),
     7: (110,510), 8: (310,510), 9: (510,510),
 }
-#conditions for winning: if any one number shows up 3 times in either the y or x coordinates
-#diagonals have more specific descriptions I think
-#if 
+
 def game(hitbox):
     global TURN
     shape = x if TURN % 2 == 0 else o
@@ -65,6 +64,7 @@ def game(hitbox):
         popup = Toplevel(window)
         winner =Label(popup, width=1234, height= 559, image= congrats)
         winner.pack()
+        board.create_image(305, 305, image = gameover)
     
 #For X
 #horizontal
@@ -112,5 +112,6 @@ def game(hitbox):
         popup = Toplevel(window)
         nowin = Label(popup, width=1234, height= 559, image= draw)
         nowin.pack()
+        board.create_image(305, 305, image = gameover)  
         
 window.mainloop()
